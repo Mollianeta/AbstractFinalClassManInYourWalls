@@ -19,7 +19,7 @@ public class ListTester {
 		goodList, badList, arrayList, singleLinkedList, doubleLinkedList
 	};
 	// TODO: THIS IS WHERE YOU CHOOSE WHICH LIST TO TEST
-	private final static ListToUse LIST_TO_USE = ListToUse.badList;
+	private final static ListToUse LIST_TO_USE = ListToUse.goodList;
 
 	// possible results expected in tests
 	private enum Result {
@@ -185,7 +185,7 @@ public class ListTester {
 			// Scenario: 13
 
 			// Scenario: 14
-
+			testEmptyList(A_removeA_emptyList, "A_removeA_emptyList");
 			// Scenario: 15
 
 			// Scenario: 44
@@ -211,7 +211,7 @@ public class ListTester {
 			// Scenario: 25
 
 			// Scenario: 26
-
+		testSingleElementList(AB_removeLast_A, "AB_removeLast_A", LIST_A, STRING_A);
 			// Scenario: 27
 
 			// Scenario: 28
@@ -378,6 +378,12 @@ public class ListTester {
 	/** Scenario #14: [A] -> remove(A) -> []
 	 * @return [] after remove(A)
 	 */
+	private IndexedUnsortedList<Integer> A_removeA_emptyList() {
+		IndexedUnsortedList<Integer> list = emptyList_addToFrontA_A();
+		list.remove(ELEMENT_A);
+		return list;
+	}
+	private Scenario<Integer> A_removeA_emptyList = () -> A_removeA_emptyList();
 
 	/** Scenario #15: [A] -> remove(0) -> [] 
 	 * @return [] after remove(0)
@@ -412,7 +418,12 @@ public class ListTester {
 	/** Scenario #26: [A,B] -> removeLast() -> [A]
 	 * @return [A] after removeLast()
 	 */
-
+	private IndexedUnsortedList<Integer>  AB_removeLast_A() {
+		IndexedUnsortedList<Integer> list = A_addToRearB_AB();
+		list.removeLast();
+		return list;
+	}
+	private Scenario<Integer> AB_removeLast_A = () -> AB_removeLast_A();
 	 
 	/** Scenario #27: [A,B] -> remove(A) -> [B]
 	 * @return [B] after remove(A)
