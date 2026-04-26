@@ -170,6 +170,7 @@ public class IUSingleLinkedList<E> implements IndexedUnsortedList<E> {
 		private LinearNode<E> current;
 		private LinearNode<E> next;
 		private int iterModCount;
+		private boolean canRemove = false;
 		
 		/** Creates a new iterator for the list */
 		public SLLIterator() {
@@ -179,21 +180,47 @@ public class IUSingleLinkedList<E> implements IndexedUnsortedList<E> {
 			iterModCount = modCount;
 		}
 
-		@Override
 		public boolean hasNext() {
-			// TODO 
-			return false;
+			if (iterModCount != modCount) throw new ConcurrentModificationException();
+
+			return (current != null);
 		}
 
-		@Override
 		public E next() {
-			// TODO 
-			return null;
+			if (!hasNext()) throw new NoSuchElementException();
+			E element;
+
+			// Shift 'bookmarks' forward
+			previous = current;
+			current = next;
+			next = next.getNext();
+
+			// Store the element to return and flag the iterator as ready for removal
+			element = current.getElement();
+			canRemove = true;
+
+			return element;
 		}
 		
-		@Override
 		public void remove() {
-			// TODO
+			if (iterModCount != modCount) throw new ConcurrentModificationException();
+			if (!canRemove) throw new IllegalStateException();
+		
+			// Using this method will adjust reference variables
+			removeElement(previous, current);
+			
+			// This should always happen
+			current = next;
+
+			// If it isn't the last item next is set to the next item in succession
+			// If it is the last item, we don't touch it since next == null 
+			if (next != null) {
+				next = next.getNext();
+			}
+
+			// Keeps modCounts sync'd and prevents consecutive remove() calls
+			iterModCount++;
+			canRemove = false;
 		}
 	}
 
