@@ -744,8 +744,7 @@ public class ListTester {
 			printTest(scenarioName + "_testSize", testSize(scenario.build(), 0));
 			printTest(scenarioName + "_testToString", testToString(scenario.build(), Result.ValidString));
 
-// Step 5 Bookmark
-				// Iterator
+			// Iterator
 			 	// test to construct iterator
 			printTest(scenarioName + "_testIter", testIter(scenario.build(), Result.NoException));
 			 	// tests after getting iterator
@@ -830,8 +829,7 @@ public class ListTester {
 			printTest(scenarioName + "_testSize", testSize(scenario.build(), 1));
 			printTest(scenarioName + "_testToString", testToString(scenario.build(), Result.ValidString));
 
-// Step 5 Bookmark
-				// Iterator
+			// Iterator
 				// test to construct iterator
 			printTest(scenarioName + "_testIter", testIter(scenario.build(), Result.NoException));
 			 	// tests after getting iterator
@@ -939,10 +937,8 @@ public class ListTester {
 			printTest(scenarioName + "_testIsEmpty", testIsEmpty(scenario.build(), Result.False));
 			printTest(scenarioName + "_testSize", testSize(scenario.build(), 2));
 			printTest(scenarioName + "_testToString", testToString(scenario.build(), Result.ValidString));
-			
-// Step 5 Bookmark			
+					
 			// Iterator
-				// TODO: will add in Lab 10
 				// test to construct iterator
 			printTest(scenarioName + "_testIter", testIter(scenario.build(), Result.NoException));
 				// tests after getting iterator	
@@ -1037,9 +1033,7 @@ public class ListTester {
 			printTest(scenarioName + "_testSize", testSize(scenario.build(), 3));
 			printTest(scenarioName + "_testToString", testToString(scenario.build(), Result.ValidString));
 
-// Step 5 Bookmark
 			// Iterator
-				// TODO: will add in Lab 10
 				// test to construct iterator
 			printTest(scenarioName + "_testIter", testIter(scenario.build(), Result.NoException));
 				// tests after getting iterator	

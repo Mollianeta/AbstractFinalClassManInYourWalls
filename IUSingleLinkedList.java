@@ -327,6 +327,7 @@ public class IUSingleLinkedList<E> implements IndexedUnsortedList<E> {
 			iterModCount = modCount;
 		}
 
+		@Override
 		public boolean hasNext() {
 			if (iterModCount != modCount)
 				throw new ConcurrentModificationException();
@@ -334,6 +335,7 @@ public class IUSingleLinkedList<E> implements IndexedUnsortedList<E> {
 			return (next != null);
 		}
 
+		@Override
 		public E next() {
 			if (!hasNext())
 				throw new NoSuchElementException();
@@ -351,6 +353,7 @@ public class IUSingleLinkedList<E> implements IndexedUnsortedList<E> {
 			return element;
 		}
 
+		@Override
 		public void remove() {
 			if (iterModCount != modCount)
 				throw new ConcurrentModificationException();
@@ -360,14 +363,8 @@ public class IUSingleLinkedList<E> implements IndexedUnsortedList<E> {
 			// Using this method will adjust reference variables
 			removeElement(previous, current);
 
-			// This should always happen
+			// Update placeholders
 			current = previous;
-
-			// If it isn't the last item next is set to the next item in succession
-			// If it is the last item, we don't touch it since next == null
-			// if (next != null) {
-			// 	next = next.getNext();
-			// }
 
 			// Keeps modCounts sync'd and prevents consecutive remove() calls
 			iterModCount++;
