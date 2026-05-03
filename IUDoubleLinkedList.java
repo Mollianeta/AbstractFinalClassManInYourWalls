@@ -49,8 +49,27 @@ public class IUDoubleLinkedList<E> implements IndexedUnsortedList<E> {
 
     @Override
     public void addAfter(E element, E target) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'addAfter'");
+        BidirectionalNode<E> currentNode = front;
+        
+        while (currentNode != null) {
+            if (currentNode.getElement() == target) {  // Make new node if target found
+                BidirectionalNode<E> newNode = new BidirectionalNode<>(element);
+                BidirectionalNode<E> nextNode = currentNode.getNext();
+
+                if (currentNode != rear) {  // If it isn't the last node in the collection
+                    newNode.setNext(nextNode);
+                    nextNode.setPrevious(newNode);
+                }
+                // We can always do this though
+                currentNode.setNext(newNode);
+                newNode.setPrevious(currentNode); 
+                
+                elemCount++;
+                modCount++;
+            }
+            currentNode = currentNode.getNext(); // Check the next node
+        }
+        throw new NoSuchElementException(); // Throw exception if target not found
     }
 
     @Override
@@ -126,7 +145,7 @@ public class IUDoubleLinkedList<E> implements IndexedUnsortedList<E> {
 
     @Override
     public int size() {
-        return count;
+        return elemCount;
     }
 
     @Override
@@ -146,5 +165,9 @@ public class IUDoubleLinkedList<E> implements IndexedUnsortedList<E> {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'listIterator'");
     }
+
+    private void throwIfEmpty() {
+		if (isEmpty()) throw new NoSuchElementException();
+	}
     
 }
