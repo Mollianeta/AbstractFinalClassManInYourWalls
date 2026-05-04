@@ -281,7 +281,7 @@ public class ListTester {
 		// List Iterator Scenarios
 		if (SUPPORTS_LIST_ITERATOR) {
 			// Place List Iterator Scenarios Here...
-
+			testSingleElementList(AB_listIterator1NextRemove_A, "AB_listIterator1NextRemove_A", LIST_A, STRING_A);
 		}
 
 		// Iterator concurrency tests
@@ -836,6 +836,68 @@ public class ListTester {
 	}
 
 	private Scenario<Integer> ABC_iterNextRemoveNextRemoveNextRemove_emptyList = () -> ABC_iterNextRemoveNextRemoveNextRemove_emptyList();
+
+	/**
+	 * ListIterator Change Calls
+	 */
+
+	//Scenario #57
+	private IndexedUnsortedList<Integer> AB_listIterator1NextRemove_A() {
+		IndexedUnsortedList<Integer> list = A_addToRearB_AB();
+		ListIterator<Integer> iter = list.listIterator(1);
+		iter.next();
+		iter.remove();
+		return list;
+	}
+
+	private Scenario<Integer> AB_listIterator1NextRemove_A = () -> AB_listIterator1NextRemove_A();
+
+
+	//Scenario #60
+	private IndexedUnsortedList<Integer> ABC_listIterator1NextRemove_AC() {
+		IndexedUnsortedList<Integer> list = AB_addAfterCB_ABC();
+		ListIterator<Integer> iter = list.listIterator(1);
+		iter.next();
+		iter.remove();
+		return list;
+	}
+
+	private Scenario<Integer> ABC_listIterator1NextRemove_AC = () -> ABC_listIterator1NextRemove_AC();
+
+	//Scenario #66
+	private IndexedUnsortedList<Integer> A_listIterator1PreviousRemove_emptyList() {
+		IndexedUnsortedList<Integer> list = emptyList_addToFrontA_A();
+		ListIterator<Integer> iter = list.listIterator(1);
+		iter.previous();
+		iter.remove();
+		return list;
+	}
+
+	private Scenario<Integer> A_listIterator1PreviousRemove_emptyList = () -> A_listIterator1PreviousRemove_emptyList();
+
+	//Scenario #71
+	private IndexedUnsortedList<Integer> ABC_listIterator2PreviousRemove_AC() {
+		IndexedUnsortedList<Integer> list = AB_addAfterCB_ABC();
+		ListIterator<Integer> iter = list.listIterator(2);
+		iter.previous();
+		iter.remove();
+		return list;
+	}
+
+	private Scenario<Integer> ABC_listIterator2PreviousRemove_AC = () -> ABC_listIterator2PreviousRemove_AC();
+
+	//Scenario #87
+
+
+	//Scenario #90
+
+	
+	//Scenario #96
+
+
+	//Scenario #99
+
+
 
 	/////////////////////////////////
 	// XXX Tests for 0-element list
