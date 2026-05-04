@@ -62,6 +62,7 @@ public class IUDoubleLinkedList<E> implements IndexedUnsortedList<E> {
                 BidirectionalNode<E> next = currentNode.getNext();
 
                 addNodeBetweenNodes(currentNode, newNode, next);
+                return;
             }
             currentNode = currentNode.getNext(); // Check the next node
         }
