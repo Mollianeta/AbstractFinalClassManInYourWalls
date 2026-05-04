@@ -1,3 +1,4 @@
+import java.text.Bidi;
 import java.util.*;
 
 public class IUDoubleLinkedList<E> implements IndexedUnsortedList<E> {
@@ -385,33 +386,8 @@ public class IUDoubleLinkedList<E> implements IndexedUnsortedList<E> {
         @Override
         public void remove() {
             if (listIterModCount != modCount) throw new ConcurrentModificationException();
-            BidirectionalNode<E> offendingElement;
-            if (!isEmpty()) {
-                if (hasNext() && hasPrevious()) {
-                    switch (state) {
-                        case NEXT:
-                            offendingElement = getNodeAtIndex(cursor.getPreviousIndex());
-                            removeNodeBetweenNodes(offendingElement);
-                            listIterModCount++;
-                            cursor.leftShift();
-                            break;
-                        case PREVIOUS:
-                            offendingElement = getNodeAtIndex(cursor.getNextIndex());
-                            removeNodeBetweenNodes(offendingElement);
-                            listIterModCount++;
-                            break;
-                        case NEITHER:
-                            throw new IllegalStateException();
-                    }
-                } else if (hasNext()) {
-                    removeFirst();
-                    listIterModCount++;
-                } else {
-                    removeLast();
-                    cursor.leftShift();
-                    listIterModCount++;
-                }
-            }
+            BidirectionalNode<E> offendingElement, next, previous;
+            
         }
 
         @Override
@@ -423,18 +399,38 @@ public class IUDoubleLinkedList<E> implements IndexedUnsortedList<E> {
                 listIterModCount++;
             }
 
+            BidirectionalNode<E> next, previous;
             BidirectionalNode<E> newElement = new BidirectionalNode<>(element);
-            BidirectionalNode<E> next = getNodeAtIndex(cursor.getNextIndex());
-            BidirectionalNode<E> previous = getNodeAtIndex(cursor.getPreviousIndex());  
-                       
+
             switch (state) {
                 case NEXT:
-                    newElement.setNext(next);
-                    newElement.setPrevious(previous.getPrevious());
+                    previous = getNodeAtIndex(cursor.getPreviousIndex());
+                    if(previous.getPrevious() != null) {
+                        previous = previous.getPrevious();
+                        previous.setNext(newElement);
+                    } else {
+                        previous = null;
+                    }
+                    newElement.setPrevious(previous);
+                    if (hasNext()) {
+                        next = getNodeAtIndex(cursor.getNextIndex());
+                        newElement.setNext(next);
+                    }
                     break;
                 case PREVIOUS:
-                    newElement.setPrevious(previous);
-                    newElement.setNext(next.getNext());
+                    next = getNodeAtIndex(cursor.getNextIndex());
+                    if(next.getNext() != null) {
+                        next = next.getNext();
+                        next.setPrevious(newElement);
+                    } else {
+                        next = null;
+                    }
+                    newElement.setNext(next);
+                    if(hasPrevious()){
+                        previous = getNodeAtIndex(cursor.getPreviousIndex());
+                        newElement.setPrevious(previous);
+                    }
+                    cursor.rightShift();
                     break;
                 case NEITHER:
                     throw new IllegalStateException();
@@ -465,23 +461,6 @@ public class IUDoubleLinkedList<E> implements IndexedUnsortedList<E> {
             addNodeBetweenNodes(previous, newNode, currentNode);
             listIterModCount++;
 
-            // if(elemCount == 0) {
-            //     addToRear(element);
-            //     listIterModCount++;
-            // } else {
-            //     BidirectionalNode<E> next, previous;
-            //     //get the nodes around the cursor
-            //     previous = getNodeAtIndex(cursor.getPreviousIndex());
-            //     next = getNodeAtIndex(cursor.getNextIndex());
-            //     //tie the new node to the next and previous ones
-            //     newElement.setPrevious(previous);
-            //     newElement.setNext(next);
-            //     //sever the tie between next and previous
-            //     if(elemCount > 1){
-            //         if(previous != null) previous.setNext(newElement);
-            //         if(next != null) next.setPrevious(newElement);
-            //     }
-            // }
         }  
     }
 }
